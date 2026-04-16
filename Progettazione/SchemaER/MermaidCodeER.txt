@@ -1,0 +1,32 @@
+erDiagram
+	direction TB
+	UTENTE {
+
+	}
+
+	TOMBOLATA {
+
+	}
+
+	CARTELLA {
+
+	}
+
+	ESTRAZIONE {
+
+	}
+
+	NUMERO {
+
+	}
+
+	VINCITA {
+
+	}
+
+	UTENTE}|--|{TOMBOLATA:"PARTECIPAZIONE"
+	UTENTE||--|{CARTELLA:"possiede"
+	TOMBOLATA||--|{ESTRAZIONE:"prevede"
+	ESTRAZIONE||--||NUMERO:"estrae"
+	NUMERO}|--|{CARTELLA:"contenuto"
+	CARTELLA||--o|VINCITA:"genera"
