@@ -1,3 +1,9 @@
+---
+config:
+  theme: redux-color
+  look: classic
+  layout: elk
+---
 erDiagram
 	direction TB
 	UTENTE {
@@ -29,4 +35,6 @@ erDiagram
 	TOMBOLATA||--|{ESTRAZIONE:"prevede"
 	ESTRAZIONE||--||NUMERO:"estrae"
 	NUMERO}|--|{CARTELLA:"contenuto"
-	CARTELLA||--o|VINCITA:"genera"
+	VINCITA}o--||TOMBOLATA:"  "
+	VINCITA}o--|{CARTELLA:"  "
+	UTENTE||--o{VINCITA:"  "
