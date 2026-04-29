@@ -27,7 +27,7 @@ public class GetHandler implements HttpHandler {
         
         try {
             // Estrae i parametri dalla query string
-            Map parametri = estraiParametri(exchange.getRequestURI().getQuery());
+            Map<String, String> parametri = estraiParametri(exchange.getRequestURI().getQuery());
             
             // Validazione parametri
             if (!parametri.containsKey("operando1") || 
@@ -44,7 +44,7 @@ public class GetHandler implements HttpHandler {
             String operatore = parametri.get("operatore");
             
             // Esegue il calcolo
-            double risultato = CalcolatriceService.calcola(operando1, operando2, operatore);
+            double risultato = TombolaService.calcola(operando1, operando2, operatore);
             
             // Crea l'oggetto risposta
             OperazioneResponse response = new OperazioneResponse(
@@ -71,8 +71,8 @@ public class GetHandler implements HttpHandler {
     /**
      * Estrae i parametri dalla query string
      */
-    private Map estraiParametri(String query) {
-        Map parametri = new HashMap<>();
+    private Map<String, String> estraiParametri(String query) {
+        Map<String, String> parametri = new HashMap<>();
         
         if (query == null || query.isEmpty()) {
             return parametri;
@@ -118,7 +118,7 @@ public class GetHandler implements HttpHandler {
     private void inviaErrore(HttpExchange exchange, int codice, String messaggio) 
             throws IOException {
         
-        Map errore = new HashMap<>();
+        Map<String, Object> errore = new HashMap<>();
         errore.put("errore", messaggio);
         errore.put("status", codice);
         

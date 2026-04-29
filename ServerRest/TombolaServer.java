@@ -6,7 +6,7 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CalcolatriceServer {
+public class TombolaServer {
     
     public static void main(String[] args) {
         
@@ -32,17 +32,17 @@ public class CalcolatriceServer {
             server.createContext("/", exchange -> {
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
                 
-                Map info = new HashMap<>();
+                Map<String, Object> info = new HashMap<>();
                 info.put("messaggio", "Benvenuto alla Calcolatrice REST API");
                 info.put("versione", "2.0.0");
                 info.put("tecnologia", "Java + GSON");
                 
-                Map endpoints = new HashMap<>();
+                Map<String, String> endpoints = new HashMap<>();
                 endpoints.put("POST", "/api/calcola/post");
                 endpoints.put("GET", "/api/calcola/get?operando1=X&operando2=Y&operatore=OP");
                 info.put("endpoints", endpoints);
                 
-                Map operatori = new HashMap<>();
+                Map<String, String> operatori = new HashMap<>();
                 operatori.put("somma", "SOMMA o +");
                 operatori.put("sottrazione", "SOTTRAZIONE o -");
                 operatori.put("moltiplicazione", "MOLTIPLICAZIONE o * o X");
