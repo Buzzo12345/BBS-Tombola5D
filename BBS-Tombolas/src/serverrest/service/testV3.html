@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Puttana API</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        input, select, button { margin: 10px 0; padding: 8px; }
+        #risultato { margin-top: 20px; padding: 15px; 
+                     background: #f0f0f0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Test Puttana API</h1>
+    
+    <div>
+        <label>Operando:</label>
+        <input type="number" id="op1" value="10" step="0.01">
+    </div>
+    
+    <div>
+        <label>Operatore1:</label>
+        <select id="operatore1">
+            <option value="METRI">METRI</option>
+            <option value="YARD">YARD</option>
+        </select>
+    </div>
+
+    <div>
+        <label>Operatore2:</label>
+        <select id="operatore2">    
+            <option value="METRI">METRI</option>
+            <option value="YARD">YARD</option>
+        </select>
+    </div>
+    
+    
+    <div>
+        <button onclick="calcolaPOST()">Calcola (POST)</button>
+        <button onclick="calcolaGET()">Calcola (GET)</button>
+    </div>
+    
+    <div id="risultato"></div>
+    
+    <script>
+        async function calcolaPOST() {
+            const data = {
+                operando: parseFloat(document.getElementById('op1').value),
+                operatore1: document.getElementById('operatore1').value,
+                operatore2: document.getElementById('operatore2').value
+            };
+            
+            try {
+                const response = await fetch('http://localhost:8080/api/v3/converti/post', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                mostraRisultato(result);
+            } catch (error) {
+                document.getElementById('risultato').innerHTML = 
+                    '<strong>Errore:</strong> ' + error.message;
+            }
+        }
+        
+        async function calcolaGET() {
+            const op1 = document.getElementById('op1').value;
+            const operatore1 = document.getElementById('operatore1').value;
+            const operatore2 = document.getElementById('operatore2').value;
+            
+            const url = `http://localhost:8080/api/v3/converti/get?operando=${op1}&operatore1=${operatore1}&operatore2=${operatore2}`;
+            
+            try {
+                const response = await fetch(url);
+                const result = await response.json();
+                mostraRisultato(result);
+            } catch (error) {
+                document.getElementById('risultato').innerHTML = 
+                    '<strong>Errore:</strong> ' + error.message;
+            }
+        }
+        
+        function mostraRisultato(result) {
+            if (result.errore) {
+                document.getElementById('risultato').innerHTML = 
+                    '<strong style="color:red">Errore:</strong> ' + result.errore;
+            } else {
+                document.getElementById('risultato').innerHTML = 
+                    '<strong>Risultato:</strong> ' + result.operazione + 
+                    '<br><pre>' + JSON.stringify(result, null, 2) + '</pre>';
+            }
+        }
+    </script>
+</body>
+</html>
